@@ -1,0 +1,40 @@
+.message-composer {
+	border-top: 1px solid var(--color-border);
+	padding: 14px 16px;
+}
+
+.text-area-wrapper {
+	background: var(--gradient-grey);
+	display: flex;
+	align-items: flex-end;
+	border-radius: 20px;
+	padding: 10px;
+	gap: 8px;
+}
+
+.text-area {
+	background: none;
+	flex: 1;
+	outline: none;
+	padding: 8px;
+	resize: none;
+}
+
+.send-button {
+	height: 40px;
+	padding: 0 16px;
+	font-size: 14px;
+	color: #fff;
+	border-radius: 100px;
+	background: var(--gradient-black);
+	font-weight: 500;
+	transition: 0.1s ease all;
+}
+
+.send-button:hover {
+	transform: scale(1.05);
+}
+
+.send-button:active {
+	transform: scale(0.95);
+}
