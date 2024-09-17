@@ -23,7 +23,7 @@ export default function App() {
 	const [selectedChatId, setSelectedChatId] = useState<null | string>(null)
 	const [composerVal, setComposerVal] = useState('')
 	const [chatSearchVal, setChatSearchVal] = useState('')
-	const [viewMode, setViewMode] = useState<'spacious' | 'compact'>('compact')
+	const [viewMode, setViewMode] = useState<'spacious' | 'compact'>('spacious')
 
 	const [editInProgress, setEditInProgress] = useState<null | string>(null)
 	const [showChatCreateDialog, setShowChatCreateDialog] = useState(false)
@@ -73,6 +73,7 @@ export default function App() {
 					setMessages([...messages])
 				}}
 				onMessageDelete={(messageId: string) => {
+					if (editInProgress) return
 					setMessages(messages.filter((item) => item.id !== messageId))
 				}}
 				onEdit={(messageId: string) => {

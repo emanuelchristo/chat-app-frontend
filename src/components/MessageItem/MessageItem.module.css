@@ -29,6 +29,9 @@
 	border-radius: 50%;
 	background: var(--gradient-avatar);
 	flex-shrink: 0;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .self .avatar {
@@ -119,10 +122,14 @@
 .actions-wrapper {
 	display: flex;
 	gap: 6px;
+	flex-shrink: 0;
+	width: max-content;
 }
 
 .action-icon {
-	opacity: 0.6;
+	flex-shrink: 0;
+	width: 14px;
+	height: 14px;
 }
 
 /* --------------------------------------------------- */

@@ -11,7 +11,10 @@ export const MessagesHeader = ({ name, imgUrl, isOnline, onChatDelete }: Message
 	return (
 		<div className={styles['messages-header']}>
 			<div className={styles['chat-info-wrapper']}>
-				<div className={styles['avatar']} style={{ background: `url(${imgUrl})` }}></div>
+				<div
+					className={styles['avatar']}
+					style={{ background: imgUrl ? `url(${imgUrl})` : 'var(--gradient-avatar)' }}
+				></div>
 				<div className={styles['text-wrapper']}>
 					<span className={styles['name']}>{name}</span>
 					{isOnline && (

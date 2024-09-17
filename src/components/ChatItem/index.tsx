@@ -1,4 +1,4 @@
-import { formatDate } from '../../utils/format-date'
+import { formatChatDate } from '../../utils/format-date'
 
 import styles from './ChatItem.module.css'
 
@@ -25,6 +25,8 @@ export const ChatItem = ({
 	selected,
 	onClick,
 }: ChatItemProps) => {
+	if (!preview) viewMode = 'compact'
+
 	return (
 		<div
 			className={`${styles['chat-item']} ${selected ? styles['selected'] : ''}`}
@@ -41,16 +43,18 @@ export const ChatItem = ({
 			<div className={styles['text-wrapper']}>
 				<div className={styles['name-wrapper']}>
 					<span className={styles['name']}>{name}</span>
-					{viewMode === 'spacious' && <span className={styles['time']}>{formatDate(datetime)}</span>}
+					{viewMode === 'spacious' && <span className={styles['time']}>{formatChatDate(datetime)}</span>}
 					{viewMode === 'compact' && (
 						<div className={styles['count']} style={{ visibility: unreadCount > 0 ? 'visible' : 'hidden' }}>
 							{unreadCount}
 						</div>
 					)}
 				</div>
-				{viewMode === 'spacious' && (
+				{viewMode === 'spacious' && preview && (
 					<div className={styles['preview-wrapper']}>
-						<p className={styles['preview']}>{preview}</p>
+						<p className={styles['preview']} title={preview}>
+							{preview}
+						</p>
 						<div className={styles['count']} style={{ visibility: unreadCount > 0 ? 'visible' : 'hidden' }}>
 							{unreadCount}
 						</div>
