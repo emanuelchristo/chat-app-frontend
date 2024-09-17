@@ -1,11 +1,25 @@
 .message-item-container {
 	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.message-item-container:first-child {
+	margin-top: auto;
+}
+
+.self {
+	justify-content: flex-end;
 }
 
 .message-item {
 	display: flex;
 	gap: 8px;
 	width: 75%;
+}
+
+.message-item {
+	justify-content: flex-end;
 }
 
 .avatar {
@@ -17,17 +31,29 @@
 	flex-shrink: 0;
 }
 
+.self .avatar {
+	display: none;
+}
+
 .bubble-wrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
 }
 
+.self .bubble-wrapper {
+	align-items: flex-end;
+}
+
 .datetime {
 	font-size: 13px;
 	color: var(--color-grey);
 	line-height: 1;
-	margin-left: 4px;
+	margin: 0 4px;
+}
+
+.self .datetime {
+	text-align: right;
 }
 
 .bubble {
@@ -37,6 +63,14 @@
 	border-bottom-left-radius: 0;
 	user-select: text;
 	position: relative;
+	width: fit-content;
+}
+
+.self .bubble {
+	background: var(--gradient-blue);
+	color: #fff;
+	border-radius: 14px;
+	border-bottom-right-radius: 0;
 }
 
 .reactions-wrapper {
@@ -56,6 +90,11 @@
 	transition: 0.2s ease all;
 	cursor: pointer;
 	opacity: 0;
+}
+
+.self .reactions-wrapper {
+	right: 14px;
+	left: unset;
 }
 
 .bubble:hover .reactions-wrapper {
@@ -95,6 +134,13 @@
 	gap: 6px;
 	bottom: -14px;
 	left: 16px;
+	color: #000;
+}
+
+.self .applied-reactions-wrapper {
+	left: unset;
+	right: 16px;
+	flex-direction: row-reverse;
 }
 
 .reaction-item {

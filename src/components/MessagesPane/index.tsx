@@ -11,6 +11,7 @@ type MessagesPaneProps = {
 	messages: Message[]
 	selectedChatId: string | null
 	currentUserId: string
+	viewMode: 'compact' | 'spacious'
 	onChatDelete: () => void
 	onEmoji: (messageId: string, emoji: string) => void
 	onMessageDelete: (messageId: string) => void
@@ -26,6 +27,7 @@ export const MessagesPane = ({
 	messages,
 	selectedChatId,
 	currentUserId,
+	viewMode,
 	onChatDelete,
 	onEmoji,
 	onMessageDelete,
@@ -59,6 +61,7 @@ export const MessagesPane = ({
 								onDelete={() => onMessageDelete(item.id)}
 								onEdit={() => onEdit(item.id)}
 								currentUserId={currentUserId}
+								viewMode={viewMode}
 							/>
 						))}
 					</div>

@@ -1,6 +1,7 @@
 import type { Chat, User, Message } from '../../types'
 import { ChatItem } from '../ChatItem'
 import { CreateButton, SearchBox } from '../SearchBox'
+import { ViewMode } from '../ViewMode'
 
 import styles from './ChatsPane.module.css'
 
@@ -13,6 +14,8 @@ type ChatsPaneProps = {
 	selectedChatId: string | null
 	onChatSelect: (chatId: string) => void
 	currentUserId: string
+	viewMode: 'spacious' | 'compact'
+	onViewModeChange: (viewMode: 'spacious' | 'compact') => void
 }
 
 export const ChatsPane = ({
@@ -24,6 +27,8 @@ export const ChatsPane = ({
 	selectedChatId,
 	onChatSelect,
 	currentUserId,
+	viewMode,
+	onViewModeChange,
 }: ChatsPaneProps) => {
 	return (
 		<div className={styles['chats-pane']}>
@@ -34,6 +39,7 @@ export const ChatsPane = ({
 					</div>
 					<h1>Chats</h1>
 				</div>
+				<ViewMode viewMode={viewMode} onViewModeChange={onViewModeChange} />
 			</div>
 
 			<div className={styles['search-wrapper']}>
@@ -55,7 +61,7 @@ export const ChatsPane = ({
 								datetime={lastMessage?.datetime ?? null}
 								unreadCount={unreadCount}
 								online={chatUser.isOnline}
-								viewMode='spacious'
+								viewMode={viewMode}
 								selected={selectedChatId === chat.id}
 								onClick={() => onChatSelect(chat.id)}
 							/>

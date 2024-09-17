@@ -23,6 +23,7 @@ export default function App() {
 	const [selectedChatId, setSelectedChatId] = useState<null | string>(null)
 	const [composerVal, setComposerVal] = useState('')
 	const [chatSearchVal, setChatSearchVal] = useState('')
+	const [viewMode, setViewMode] = useState<'spacious' | 'compact'>('compact')
 
 	const [editInProgress, setEditInProgress] = useState<null | string>(null)
 	const [showChatCreateDialog, setShowChatCreateDialog] = useState(false)
@@ -41,12 +42,15 @@ export default function App() {
 				selectedChatId={selectedChatId}
 				onChatSelect={setSelectedChatId}
 				currentUserId={CURRENT_USER_ID}
+				viewMode={viewMode}
+				onViewModeChange={setViewMode}
 			/>
 			<MessagesPane
 				chats={chats}
 				messages={messages}
 				selectedChatId={selectedChatId}
 				currentUserId={CURRENT_USER_ID}
+				viewMode={viewMode}
 				onChatDelete={() => {
 					setShowChatDeleteDialog(true)
 				}}
@@ -80,6 +84,8 @@ export default function App() {
 				onComposerChange={setComposerVal}
 				editInProgress={editInProgress}
 				onSend={() => {
+					if (composerVal === '') return
+
 					if (editInProgress) {
 						const msg = messages.find((item) => item.id === editInProgress) as Message
 						msg.text = composerVal

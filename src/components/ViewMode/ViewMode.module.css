@@ -1,0 +1,17 @@
+.view-mode {
+	display: flex;
+	align-items: center;
+	background: var(--gradient-grey);
+	border-radius: 100px;
+	overflow: hidden;
+}
+
+.view-mode button {
+	padding: 4px 10px;
+	font-size: 13px;
+}
+
+.view-mode .selected {
+	background: var(--gradient-black);
+	color: #fff;
+}

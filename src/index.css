@@ -7,6 +7,7 @@
 	--gradient-grey: linear-gradient(#f1f1f1, #f7f6f5);
 	--gradient-black: linear-gradient(#000000, #3c3c3c);
 	--gradient-red: linear-gradient(#f10b0b, #d10000);
+	--gradient-blue: linear-gradient(#3731f1, #1bb7ff);
 	--gradient-avatar: linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.08));
 	--color-grey: rgba(0, 0, 0, 0.5);
 	--color-border: #ebedec;

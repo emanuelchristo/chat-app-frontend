@@ -1,5 +1,5 @@
 import type { Message } from '../../types'
-import { formatDate } from '../../utils/format-date'
+import { formatMessageDate } from '../../utils/format-date'
 
 import styles from './MessageItem.module.css'
 
@@ -9,9 +9,10 @@ type MessageItemProps = {
 	onEmoji: (emoji: string) => void
 	onEdit: () => void
 	onDelete: () => void
+	viewMode: 'compact' | 'spacious'
 }
 
-export const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete }: MessageItemProps) => {
+export const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMode }: MessageItemProps) => {
 	function groupReactions(reactions: { emoji: string; userId: string }[], currentUserId: string) {
 		const table: { [key: string]: { isSelf: boolean; count: number } } = {}
 
@@ -37,7 +38,7 @@ export const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete 
 			<div className={styles['message-item']}>
 				<div className={styles['avatar']}></div>
 				<div className={styles['bubble-wrapper']}>
-					<span className={styles['datetime']}>{formatDate(message.datetime)}</span>
+					{viewMode === 'spacious' && <span className={styles['datetime']}>{formatMessageDate(message.datetime)}</span>}
 					<div className={styles['bubble']}>
 						<ReactionsMenu onEmoji={onEmoji} onEdit={onEdit} onDelete={onDelete} showEdit={isSelf} />
 						{message.text}
