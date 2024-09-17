@@ -4,10 +4,12 @@ export const MessageComposer = ({
 	value,
 	onChange,
 	onSend,
+	editInProgress,
 }: {
 	value: string
 	onChange: (val: string) => void
 	onSend: () => void
+	editInProgress: boolean
 }) => {
 	return (
 		<div className={styles['message-composer']}>
@@ -19,7 +21,7 @@ export const MessageComposer = ({
 					value={value}
 				></textarea>
 				<button className={styles['send-button']} onClick={onSend}>
-					Send
+					{editInProgress ? 'Save Edit' : 'Send'}
 				</button>
 			</div>
 		</div>

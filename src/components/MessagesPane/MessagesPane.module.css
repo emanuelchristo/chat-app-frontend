@@ -51,3 +51,10 @@
 	margin: 0 auto;
 	overflow-y: scroll;
 }
+
+.no-messages {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+}

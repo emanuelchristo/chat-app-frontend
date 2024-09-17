@@ -15,6 +15,7 @@ type MessagesPaneProps = {
 	onEmoji: (messageId: string, emoji: string) => void
 	onMessageDelete: (messageId: string) => void
 	onEdit: (messageId: string) => void
+	editInProgress: string | null
 	composerValue: string
 	onComposerChange: (val: string) => void
 	onSend: () => void
@@ -29,12 +30,14 @@ export const MessagesPane = ({
 	onEmoji,
 	onMessageDelete,
 	onEdit,
+	editInProgress,
 	composerValue,
 	onComposerChange,
 	onSend,
 }: MessagesPaneProps) => {
 	const currentChat = chats.find((item) => item.id === selectedChatId)
 	const currentChatUser = currentChat?.users.find((item) => item.id !== currentUserId)
+	const shownMessages = messages.filter((item) => item.chatId === selectedChatId)
 
 	if (!currentChatUser) return <MessagesPaneEmpty />
 	else
@@ -46,9 +49,9 @@ export const MessagesPane = ({
 					isOnline={currentChatUser.isOnline}
 					onChatDelete={() => onChatDelete()}
 				/>
-				{messages.length > 0 ? (
+				{shownMessages.length > 0 ? (
 					<div className={styles['messages-container']}>
-						{messages.map((item) => (
+						{shownMessages.map((item) => (
 							<MessageItem
 								key={item.id}
 								message={item}
@@ -63,7 +66,12 @@ export const MessagesPane = ({
 					<div className={styles['no-messages']}>No messages yet</div>
 				)}
 
-				<MessageComposer value={composerValue} onChange={onComposerChange} onSend={onSend} />
+				<MessageComposer
+					value={composerValue}
+					editInProgress={!!editInProgress}
+					onChange={onComposerChange}
+					onSend={onSend}
+				/>
 			</div>
 		)
 }
