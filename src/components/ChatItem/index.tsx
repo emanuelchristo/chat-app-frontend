@@ -6,11 +6,12 @@ type ChatItemProps = {
 	name: string
 	imageUrl: string
 	preview: string
-	datetime: string
+	datetime: string | null
 	unreadCount: number
 	online: boolean
 	viewMode: 'compact' | 'spacious'
 	selected: boolean
+	onClick: () => void
 }
 
 export const ChatItem = ({
@@ -22,11 +23,13 @@ export const ChatItem = ({
 	online,
 	viewMode,
 	selected,
+	onClick,
 }: ChatItemProps) => {
 	return (
 		<div
 			className={`${styles['chat-item']} ${selected ? styles['selected'] : ''}`}
 			style={{ alignItems: viewMode === 'spacious' ? 'flex-start' : 'center' }}
+			onClick={onClick}
 		>
 			<div className={styles['avatar-wrapper']}>
 				<div

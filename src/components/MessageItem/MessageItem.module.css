@@ -1,0 +1,125 @@
+.message-item-container {
+	width: 100%;
+}
+
+.message-item {
+	display: flex;
+	gap: 8px;
+	width: 75%;
+}
+
+.avatar {
+	width: 40px;
+	height: 40px;
+	margin-top: 4px;
+	border-radius: 50%;
+	background: var(--gradient-avatar);
+	flex-shrink: 0;
+}
+
+.bubble-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.datetime {
+	font-size: 13px;
+	color: var(--color-grey);
+	line-height: 1;
+	margin-left: 4px;
+}
+
+.bubble {
+	padding: 18px;
+	background: var(--gradient-grey);
+	border-radius: 14px;
+	border-bottom-left-radius: 0;
+	user-select: text;
+	position: relative;
+}
+
+.reactions-wrapper {
+	height: 36px;
+	padding: 0 12px;
+	border: 1px solid var(--color-border);
+	border-radius: 100px;
+	gap: 12px;
+	display: flex;
+	align-items: center;
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.07);
+	background-color: #fff;
+	position: absolute;
+	left: 14px;
+	top: -24px;
+	visibility: hidden;
+	transition: 0.2s ease all;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.bubble:hover .reactions-wrapper {
+	visibility: visible;
+	opacity: 1;
+}
+
+.separator {
+	height: 60%;
+	width: 1px;
+	flex-shrink: 0;
+	background-color: var(--color-border);
+}
+
+.emojis-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 20px;
+}
+
+.actions-wrapper {
+	display: flex;
+	gap: 6px;
+}
+
+.action-icon {
+	opacity: 0.6;
+}
+
+/* --------------------------------------------------- */
+
+.applied-reactions-wrapper {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	bottom: -14px;
+	left: 16px;
+}
+
+.reaction-item {
+	height: 24px;
+	padding: 0 7px 0 6px;
+	border-radius: 100px;
+	background-color: #fff;
+	border: 1px solid var(--color-border);
+	display: flex;
+	align-items: center;
+	width: fit-content;
+	gap: 4px;
+	font-size: 13px;
+}
+
+.reaction-item-self {
+	cursor: pointer;
+	border-color: var(--color-blue);
+	transition: 0.1s ease all;
+}
+
+.reaction-item-self:hover {
+	transform: scale(1.05);
+}
+
+.reaction-item-self:active {
+	transform: scale(0.95);
+}

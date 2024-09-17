@@ -38,3 +38,16 @@
 	height: 100%;
 	flex: 1;
 }
+
+.messages-container {
+	flex: 1;
+	padding: 24px 16px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	gap: 28px;
+	max-width: 800px;
+	width: 100%;
+	margin: 0 auto;
+	overflow-y: scroll;
+}

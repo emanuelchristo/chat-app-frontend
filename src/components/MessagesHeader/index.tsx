@@ -1,20 +1,29 @@
 import styles from './MessagesHeader.module.css'
 
-export const MessagesHeader = () => {
+type MessagesHeaderProps = {
+	name: string
+	imgUrl: string
+	isOnline: boolean
+	onChatDelete: () => void
+}
+
+export const MessagesHeader = ({ name, imgUrl, isOnline, onChatDelete }: MessagesHeaderProps) => {
 	return (
 		<div className={styles['messages-header']}>
 			<div className={styles['chat-info-wrapper']}>
-				<div className={styles['avatar']}></div>
+				<div className={styles['avatar']} style={{ background: `url(${imgUrl})` }}></div>
 				<div className={styles['text-wrapper']}>
-					<span className={styles['name']}>John Doe</span>
-					<div className={styles['online-wrapper']}>
-						<div className={styles['online-circle']}></div>
-						<span>Online</span>
-					</div>
+					<span className={styles['name']}>{name}</span>
+					{isOnline && (
+						<div className={styles['online-wrapper']}>
+							<div className={styles['online-circle']}></div>
+							<span>Online</span>
+						</div>
+					)}
 				</div>
 			</div>
 
-			<button className={styles['circle-icon-button']}>
+			<button className={styles['circle-icon-button']} onClick={onChatDelete}>
 				<svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
 					<mask id='mask0_2_197' maskUnits='userSpaceOnUse' x='0' y='0' width='18' height='18'>
 						<rect width='18' height='18' fill='#D9D9D9' />

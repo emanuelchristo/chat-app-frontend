@@ -1,9 +1,30 @@
+import type { Chat, User, Message } from '../../types'
 import { ChatItem } from '../ChatItem'
 import { CreateButton, SearchBox } from '../SearchBox'
 
 import styles from './ChatsPane.module.css'
 
-export const ChatsPane = () => {
+type ChatsPaneProps = {
+	chats: Chat[]
+	messages: Message[]
+	chatSearchVal: string
+	onChatSearchChange: (val: string) => void
+	onCreate: () => void
+	selectedChatId: string | null
+	onChatSelect: (chatId: string) => void
+	currentUserId: string
+}
+
+export const ChatsPane = ({
+	chats,
+	messages,
+	chatSearchVal,
+	onChatSearchChange,
+	onCreate,
+	selectedChatId,
+	onChatSelect,
+	currentUserId,
+}: ChatsPaneProps) => {
 	return (
 		<div className={styles['chats-pane']}>
 			<div className={styles['chats-header']}>
@@ -16,29 +37,37 @@ export const ChatsPane = () => {
 			</div>
 
 			<div className={styles['search-wrapper']}>
-				<SearchBox />
-				<CreateButton />
+				<SearchBox val={chatSearchVal} onChange={onChatSearchChange} />
+				<CreateButton onClick={onCreate} />
 			</div>
 
-			<div className={styles['chats-container']}>
-				<ChatItem />
-				<ChatItem
-					name='Emanuel Christo'
-					imageUrl=''
-					preview='Hi how are you?'
-					datetime={Date()}
-					unreadCount={2}
-					online={true}
-					viewMode='spacious'
-					selected={true}
-				/>
-				<ChatItem />
-			</div>
-
-			{/* <div className={styles['chats-empty']}>
-				<img src='/images/chats-empty.png' alt='Chats empty icon' draggable='false' />
-				<p>No chats. Create one</p>
-			</div> */}
+			{chats.length > 0 ? (
+				<div className={styles['chats-container']}>
+					{chats.map((chat) => {
+						const chatUser = chat.users.find((item) => item.id !== currentUserId) as User
+						const lastMessage = [...messages].reverse().find((item) => item.chatId === chat.id)
+						const unreadCount = messages.filter((item) => item.chatId === chat.id && item.unread).length
+						return (
+							<ChatItem
+								name={chatUser.name}
+								imageUrl={chatUser.imgUrl}
+								preview={lastMessage?.text ?? ''}
+								datetime={lastMessage?.datetime ?? null}
+								unreadCount={unreadCount}
+								online={chatUser.isOnline}
+								viewMode='spacious'
+								selected={selectedChatId === chat.id}
+								onClick={() => onChatSelect(chat.id)}
+							/>
+						)
+					})}
+				</div>
+			) : (
+				<div className={styles['chats-empty']}>
+					<img src='/images/chats-empty.png' alt='Chats empty icon' draggable='false' />
+					<p>No chats. Create one</p>
+				</div>
+			)}
 
 			<div className={styles['made-by']}>
 				<p>

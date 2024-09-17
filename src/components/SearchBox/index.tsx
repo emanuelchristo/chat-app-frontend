@@ -1,6 +1,6 @@
 import styles from './SearchBox.module.css'
 
-export const SearchBox = () => {
+export const SearchBox = ({ val, onChange }: { val: string; onChange: (val: string) => void }) => {
 	return (
 		<div className={styles['search-box']}>
 			<svg
@@ -21,7 +21,7 @@ export const SearchBox = () => {
 					/>
 				</g>
 			</svg>
-			<input type='text' placeholder='Search chats...' />
+			<input type='text' placeholder='Search chats...' value={val} onChange={(e) => onChange(e.target.value)} />
 			<svg
 				width='18'
 				height='18'
@@ -29,6 +29,7 @@ export const SearchBox = () => {
 				viewBox='0 0 18 18'
 				fill='none'
 				xmlns='http://www.w3.org/2000/svg'
+				onClick={() => onChange('')}
 			>
 				<mask id='mask0_9_916' maskUnits='userSpaceOnUse' x='0' y='0' width='18' height='18'>
 					<rect width='18' height='18' fill='#D9D9D9' />
@@ -44,9 +45,9 @@ export const SearchBox = () => {
 	)
 }
 
-export const CreateButton = () => {
+export const CreateButton = ({ onClick }: { onClick: () => void }) => {
 	return (
-		<button className={styles['create-button']}>
+		<button className={styles['create-button']} onClick={onClick}>
 			<svg width='22' height='22' viewBox='0 0 22 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
 				<mask id='mask0_3_312' maskUnits='userSpaceOnUse' x='0' y='0' width='22' height='22'>
 					<rect width='22' height='22' fill='#D9D9D9' />
