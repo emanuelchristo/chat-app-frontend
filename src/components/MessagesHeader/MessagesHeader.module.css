@@ -60,8 +60,8 @@
 }
 
 .circle-icon-button {
-	width: 36px;
-	height: 36px;
+	width: 42px;
+	height: 42px;
 	border-radius: 50%;
 	background: var(--gradient-grey);
 	display: flex;
@@ -73,6 +73,8 @@
 
 .circle-icon-button svg {
 	opacity: 0.9;
+	width: 20px;
+	height: 20px;
 }
 
 .circle-icon-button svg:hover {

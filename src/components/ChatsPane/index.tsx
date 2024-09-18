@@ -55,6 +55,7 @@ export const ChatsPane = ({
 						const unreadCount = messages.filter((item) => item.chatId === chat.id && item.unread).length
 						return (
 							<ChatItem
+								key={chat.id}
 								name={chatUser.name}
 								imageUrl={chatUser.imgUrl}
 								preview={lastMessage?.text ?? ''}

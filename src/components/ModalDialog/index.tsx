@@ -45,7 +45,7 @@ export const ModalDialog = ({
 	)
 }
 
-export const CreateChatDialog = ({ onCancel, onOk }) => {
+export const CreateChatDialog = ({ onCancel, onOk }: { onCancel: () => void; onOk: (val: string) => void }) => {
 	const [val, setVal] = useState('')
 
 	return (
@@ -63,6 +63,12 @@ export const CreateChatDialog = ({ onCancel, onOk }) => {
 				type='text'
 				placeholder='Enter name...'
 				value={val}
+				maxLength={20}
+				onKeyDown={(e) => {
+					if (e.code === 'Enter') {
+						onOk(val)
+					}
+				}}
 				onChange={(e) => setVal(e.target.value)}
 			/>
 		</ModalDialog>

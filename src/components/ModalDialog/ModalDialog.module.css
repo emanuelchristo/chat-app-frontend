@@ -30,7 +30,7 @@
 }
 
 .content {
-	padding: 22px 18px;
+	padding: 22px 14px;
 }
 
 .actions-wrapper {
@@ -42,7 +42,7 @@
 }
 
 .actions-wrapper button {
-	height: 36px;
+	height: 40px;
 	flex: 1;
 	border-radius: 100px;
 	background: var(--gradient-grey);
