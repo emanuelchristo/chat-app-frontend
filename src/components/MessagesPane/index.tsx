@@ -1,4 +1,5 @@
 import type { Chat, Message } from '../../types'
+import { useRef, useEffect, useState } from 'react'
 
 import { MessageComposer } from '../MessageComposer'
 import { MessageItem } from '../MessageItem'
@@ -41,6 +42,20 @@ export const MessagesPane = ({
 	const currentChatUser = currentChat?.users.find((item) => item.id !== currentUserId)
 	const shownMessages = messages.filter((item) => item.chatId === selectedChatId)
 
+	const [prevMessages, setPrevMessages] = useState<Message[]>([])
+	const messagesContainer = useRef(null)
+
+	useEffect(() => {
+		// Checking if there is a different last message, if yes scrolling to bottom
+		const prevLastMsgId = prevMessages.length > 0 ? prevMessages[prevMessages.length - 1].id : null
+		const lastMsgId = messages.length > 0 ? messages[messages.length - 1].id : null
+
+		if (messagesContainer.current && prevLastMsgId !== lastMsgId)
+			messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
+
+		setPrevMessages([...messages])
+	}, [messages])
+
 	if (!currentChatUser) return <MessagesPaneEmpty />
 	else
 		return (
@@ -52,7 +67,7 @@ export const MessagesPane = ({
 					onChatDelete={() => onChatDelete()}
 				/>
 				{shownMessages.length > 0 ? (
-					<div className={styles['messages-container']}>
+					<div className={styles['messages-container']} ref={messagesContainer}>
 						{shownMessages.map((item) => (
 							<MessageItem
 								key={item.id}
