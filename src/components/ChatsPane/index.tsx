@@ -1,4 +1,7 @@
 import type { Chat, User, Message } from '../../types'
+import { search } from 'fast-fuzzy'
+import { useState } from 'react'
+
 import { ChatItem } from '../ChatItem'
 import { CreateButton, SearchBox } from '../SearchBox'
 import { ViewMode } from '../ViewMode'
@@ -8,8 +11,6 @@ import styles from './ChatsPane.module.css'
 type ChatsPaneProps = {
 	chats: Chat[]
 	messages: Message[]
-	chatSearchVal: string
-	onChatSearchChange: (val: string) => void
 	onCreate: () => void
 	selectedChatId: string | null
 	onChatSelect: (chatId: string) => void
@@ -21,8 +22,6 @@ type ChatsPaneProps = {
 export const ChatsPane = ({
 	chats,
 	messages,
-	chatSearchVal,
-	onChatSearchChange,
 	onCreate,
 	selectedChatId,
 	onChatSelect,
@@ -30,6 +29,16 @@ export const ChatsPane = ({
 	viewMode,
 	onViewModeChange,
 }: ChatsPaneProps) => {
+	const [chatSearchVal, setChatSearchVal] = useState('')
+
+	const searchedChats = chatSearchVal
+		? search(chatSearchVal, chats, {
+				keySelector: (obj) => {
+					return obj.users.find((item) => item.id !== currentUserId)!.name
+				},
+		  })
+		: chats
+
 	return (
 		<div className={styles['chats-pane']}>
 			<div className={styles['chats-header']}>
@@ -43,13 +52,13 @@ export const ChatsPane = ({
 			</div>
 
 			<div className={styles['search-wrapper']}>
-				<SearchBox val={chatSearchVal} onChange={onChatSearchChange} />
+				<SearchBox val={chatSearchVal} onChange={setChatSearchVal} />
 				<CreateButton onClick={onCreate} />
 			</div>
 
 			{chats.length > 0 ? (
 				<div className={styles['chats-container']}>
-					{chats.map((chat) => {
+					{searchedChats.map((chat) => {
 						const chatUser = chat.users.find((item) => item.id !== currentUserId) as User
 						const lastMessage = [...messages].reverse().find((item) => item.chatId === chat.id)
 						const unreadCount = messages.filter((item) => item.chatId === chat.id && item.unread).length

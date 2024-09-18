@@ -1,5 +1,5 @@
 import type { Chat, Message, User } from './types'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getRandString } from './utils/rand-string'
 
 import { ChatsPane } from './components/ChatsPane'
@@ -22,12 +22,28 @@ export default function App() {
 	const [messages, setMessages] = useState<Message[]>([])
 	const [selectedChatId, setSelectedChatId] = useState<null | string>(null)
 	const [composerVal, setComposerVal] = useState('')
-	const [chatSearchVal, setChatSearchVal] = useState('')
 	const [viewMode, setViewMode] = useState<'spacious' | 'compact'>('spacious')
 
 	const [editInProgress, setEditInProgress] = useState<null | string>(null)
 	const [showChatCreateDialog, setShowChatCreateDialog] = useState(false)
 	const [showChatDeleteDialog, setShowChatDeleteDialog] = useState(false)
+
+	const renderCount = useRef(0)
+	renderCount.current += 1
+
+	useEffect(() => {
+		const chatDataStr = localStorage.getItem('chatData')
+		if (chatDataStr === null) return
+
+		const { chats, messages } = JSON.parse(chatDataStr)
+
+		setChats(chats)
+		setMessages(messages)
+	}, [])
+
+	useEffect(() => {
+		if (renderCount.current > 1) localStorage.setItem('chatData', JSON.stringify({ chats, messages }))
+	}, [chats, messages])
 
 	return (
 		<div className={styles['app']}>
@@ -37,8 +53,6 @@ export default function App() {
 				onCreate={() => {
 					setShowChatCreateDialog(true)
 				}}
-				chatSearchVal={chatSearchVal}
-				onChatSearchChange={setChatSearchVal}
 				selectedChatId={selectedChatId}
 				onChatSelect={setSelectedChatId}
 				currentUserId={CURRENT_USER_ID}
