@@ -23,11 +23,6 @@ export const MessageComposer = ({
 					className={styles['text-area']}
 					placeholder='Write a message...'
 					rows={rows}
-					onKeyDown={(e) => {
-						if ((e.shiftKey === false) & (e.key === 'Enter')) {
-							onSend()
-						}
-					}}
 					onChange={(e) => {
 						onChange(e.target.value)
 						const nRows = e.target.value.split('\n').length
