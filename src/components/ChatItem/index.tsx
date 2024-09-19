@@ -36,7 +36,7 @@ export const ChatItem = ({
 			<div className={styles['avatar-wrapper']}>
 				<div
 					className={styles['avatar']}
-					style={{ background: imageUrl ? `url(${imageUrl})` : 'var(--gradient-avatar)' }}
+					style={{ backgroundImage: imageUrl ? `url(${imageUrl})` : 'var(--gradient-avatar)' }}
 				></div>
 				{!!online && <div className={styles['online-circle']}></div>}
 			</div>

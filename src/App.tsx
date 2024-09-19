@@ -1,6 +1,7 @@
 import type { Chat, Message, User } from './types'
 import { useState, useEffect, useRef } from 'react'
 import { getRandString } from './utils/rand-string'
+import { getAvatarUrl } from './utils/avatar'
 
 import { ChatsPane } from './components/ChatsPane'
 import { MessagesPane } from './components/MessagesPane'
@@ -13,7 +14,7 @@ const CURRENT_USER_ID = 'abcdefghijk'
 const CURRENT_USER: User = {
 	id: CURRENT_USER_ID,
 	name: 'Emanuel Christo',
-	imgUrl: '',
+	imgUrl: getAvatarUrl(CURRENT_USER_ID + 'Emanuel Christo'),
 	isOnline: true,
 }
 
@@ -133,10 +134,11 @@ export default function App() {
 					onOk={(val: string) => {
 						if (!val) return
 
+						const newUserId = getRandString()
 						const newUser: User = {
-							id: getRandString(),
+							id: newUserId,
 							name: val,
-							imgUrl: '',
+							imgUrl: getAvatarUrl(newUserId + val),
 							isOnline: true,
 						}
 
