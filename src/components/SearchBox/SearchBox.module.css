@@ -30,28 +30,3 @@
 .close-icon:active {
 	transform: scale(0.95);
 }
-
-.create-button {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background: var(--gradient-black);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	transition: 0.1s ease all;
-}
-
-.create-button svg {
-	width: 28px;
-	height: 28px;
-}
-
-.create-button:hover {
-	transform: scale(1.05);
-}
-
-.create-button:active {
-	transform: scale(0.95);
-}

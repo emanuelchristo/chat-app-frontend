@@ -1,16 +1,17 @@
-import type { Chat, Message, User } from './types'
-import { useState, useEffect, useRef } from 'react'
+import type { Chat, Message, User, State, Action } from './types'
+
+import { useEffect, useReducer } from 'react'
 import { getRandString } from './utils/rand-string'
 import { getAvatarUrl } from './utils/avatar'
 
 import { ChatsPane } from './components/ChatsPane'
 import { MessagesPane } from './components/MessagesPane'
-
-import styles from './App.module.css'
-import { CreateChatDialog, ModalDialog } from './components/ModalDialog'
+import { CreateChatDialog } from './components/CreateChatDialog'
+import { DeleteMessageDialog } from './components/DeleteMessageDialog'
+import { DeleteChatDialog } from './components/DeleteChatDialog'
+import { EditMessageDialog } from './components/EditMessageDialog'
 
 const CURRENT_USER_ID = 'abcdefghijk'
-
 const CURRENT_USER: User = {
 	id: CURRENT_USER_ID,
 	name: 'Emanuel Christo',
@@ -18,162 +19,181 @@ const CURRENT_USER: User = {
 	isOnline: true,
 }
 
+const initialState: State = {
+	currentUser: CURRENT_USER,
+	chats: [],
+	messages: [],
+	viewMode: 'spacious',
+	selectedChatId: null,
+	editMessageId: null,
+	deleteMessageId: null,
+	showChatCreate: false,
+	showChatDelete: false,
+}
+
+const chatDataStr = localStorage.getItem('chatData')
+if (chatDataStr) {
+	const chatData = JSON.parse(chatDataStr)
+	initialState.chats = chatData.chats ?? []
+	initialState.messages = chatData.messages ?? []
+}
+
+const reducer = (state: State, action: Action): State => {
+	switch (action.type) {
+		case 'CHAT_CREATE': {
+			return { ...state, showChatCreate: true }
+		}
+		case 'CANCEL_CHAT_CREATE': {
+			return { ...state, showChatCreate: false }
+		}
+		case 'OK_CHAT_CREATE': {
+			if (!action.payload.chatName) return state
+
+			const newUserId = getRandString()
+			const newUser: User = {
+				id: newUserId,
+				name: action.payload.chatName,
+				imgUrl: getAvatarUrl(newUserId + action.payload.chatName),
+				isOnline: true,
+			}
+
+			const newChat: Chat = {
+				id: getRandString(),
+				type: 'personal',
+				users: [newUser, { ...state.currentUser }],
+			}
+
+			return { ...state, showChatCreate: false, chats: [newChat, ...state.chats], selectedChatId: newChat.id }
+		}
+		case 'CHAT_DELETE': {
+			return { ...state, showChatDelete: true }
+		}
+		case 'CANCEL_CHAT_DELETE': {
+			return { ...state, showChatDelete: false }
+		}
+		case 'OK_CHAT_DELETE': {
+			const newChats = state.chats.filter((chat) => chat.id !== state.selectedChatId)
+			const newSelectedChatId = newChats.length > 0 ? newChats[0].id : null
+			return { ...state, chats: newChats, selectedChatId: newSelectedChatId, showChatDelete: false }
+		}
+		case 'MSG_DELETE': {
+			return { ...state, deleteMessageId: action.payload.messageId }
+		}
+		case 'CANCEL_MSG_DELETE': {
+			return { ...state, deleteMessageId: null }
+		}
+		case 'OK_MSG_DELETE': {
+			const newMsgs = state.messages.filter((msg) => msg.id !== state.deleteMessageId)
+			return { ...state, messages: newMsgs, deleteMessageId: null }
+		}
+		case 'MSG_EDIT': {
+			return { ...state, editMessageId: action.payload.messageId }
+		}
+		case 'CANCEL_MSG_EDIT': {
+			return { ...state, editMessageId: null }
+		}
+		case 'OK_MSG_EDIT': {
+			const editMsg = state.messages.find((msg) => msg.id === state.editMessageId) as Message
+			editMsg.text = action.payload.text
+			return { ...state, messages: [...state.messages], editMessageId: null }
+		}
+		case 'EMOJI': {
+			const msg = { ...(state.messages.find((item) => item.id === action.payload.messageId) as Message) }
+			const reaction = msg.reactions.find((item) => item.userId === state.currentUser.id)
+
+			// If a reaction by current user already exists on the message
+			if (reaction) {
+				// If same emoji, then remove reaction
+				if (reaction.emoji === action.payload.emoji)
+					msg.reactions = msg.reactions.filter((item) => item.userId !== state.currentUser.id)
+				// If different emoji, edit reaction
+				else reaction.emoji = action.payload.emoji
+			}
+			// Add new reaction
+			else {
+				msg.reactions.push({ emoji: action.payload.emoji, userId: state.currentUser.id })
+			}
+
+			return { ...state, messages: [...state.messages] }
+		}
+		case 'MSG_SEND': {
+			if (!action.payload.text) return state
+
+			const newMessage: Message = {
+				id: getRandString(),
+				chatId: state.selectedChatId as string,
+				sentUser: { ...state.currentUser },
+				datetime: new Date().toJSON(),
+				text: action.payload.text,
+				reactions: [],
+				unread: false,
+			}
+
+			return { ...state, messages: [...state.messages, newMessage] }
+		}
+		case 'CHAT_SELECT': {
+			return { ...state, selectedChatId: action.payload.chatId }
+		}
+		case 'VIEW_MODE': {
+			return { ...state, viewMode: action.payload.viewMode }
+		}
+		default:
+			return state
+	}
+}
+
 export default function App() {
-	const [chats, setChats] = useState<Chat[]>([])
-	const [messages, setMessages] = useState<Message[]>([])
-	const [selectedChatId, setSelectedChatId] = useState<null | string>(null)
-	const [composerVal, setComposerVal] = useState('')
-	const [viewMode, setViewMode] = useState<'spacious' | 'compact'>('spacious')
+	const [state, dispatch] = useReducer(reducer, initialState)
 
-	const [editInProgress, setEditInProgress] = useState<null | string>(null)
-	const [showChatCreateDialog, setShowChatCreateDialog] = useState(false)
-	const [showChatDeleteDialog, setShowChatDeleteDialog] = useState(false)
-
-	const renderCount = useRef(0)
-	renderCount.current += 1
-
+	// Save state to local storage
 	useEffect(() => {
-		const chatDataStr = localStorage.getItem('chatData')
-		if (chatDataStr === null) return
-
-		const { chats, messages } = JSON.parse(chatDataStr)
-
-		setChats(chats)
-		setMessages(messages)
-	}, [])
-
-	useEffect(() => {
-		if (renderCount.current > 1) localStorage.setItem('chatData', JSON.stringify({ chats, messages }))
-	}, [chats, messages])
+		localStorage.setItem('chatData', JSON.stringify({ chats: state.chats, messages: state.messages }))
+	}, [state.chats, state.messages])
 
 	return (
-		<div className={styles['app']}>
+		<div className='app'>
 			<ChatsPane
-				chats={chats}
-				messages={messages}
-				onCreate={() => {
-					setShowChatCreateDialog(true)
-				}}
-				selectedChatId={selectedChatId}
-				onChatSelect={setSelectedChatId}
-				currentUserId={CURRENT_USER_ID}
-				viewMode={viewMode}
-				onViewModeChange={setViewMode}
+				chats={state.chats}
+				messages={state.messages}
+				currentUserId={state.currentUser.id}
+				selectedChatId={state.selectedChatId}
+				viewMode={state.viewMode}
+				dispatch={dispatch}
 			/>
+
 			<MessagesPane
-				chats={chats}
-				messages={messages}
-				selectedChatId={selectedChatId}
-				currentUserId={CURRENT_USER_ID}
-				viewMode={viewMode}
-				onChatDelete={() => {
-					setShowChatDeleteDialog(true)
-				}}
-				onEmoji={(messageId: string, emoji: string) => {
-					const msg = messages.find((item) => item.id === messageId) as Message
-					const reac = msg.reactions.find((item) => item.userId === CURRENT_USER_ID)
-
-					// If a reaction by current user already exists on the message
-					if (reac) {
-						// If same emoji, then remove reaction
-						if (reac.emoji === emoji) msg.reactions = msg.reactions.filter((item) => item.userId !== CURRENT_USER_ID)
-						// If different emoji, edit reaction
-						else reac.emoji = emoji
-					}
-					// Add new reaction
-					else {
-						msg.reactions.push({ emoji, userId: CURRENT_USER_ID })
-					}
-
-					setMessages([...messages])
-				}}
-				onMessageDelete={(messageId: string) => {
-					if (editInProgress) return
-					setMessages(messages.filter((item) => item.id !== messageId))
-				}}
-				onEdit={(messageId: string) => {
-					setEditInProgress(messageId)
-					const msg = messages.find((item) => item.id === messageId) as Message
-					setComposerVal(msg.text)
-				}}
-				composerValue={composerVal}
-				onComposerChange={setComposerVal}
-				editInProgress={editInProgress}
-				onSend={() => {
-					if (composerVal === '') return
-
-					if (editInProgress) {
-						const msg = messages.find((item) => item.id === editInProgress) as Message
-						msg.text = composerVal
-						setMessages([...messages])
-						setComposerVal('')
-						setEditInProgress(null)
-						return
-					}
-
-					const newMessage: Message = {
-						id: getRandString(),
-						chatId: selectedChatId as string,
-						sentUser: CURRENT_USER,
-						datetime: new Date().toJSON(),
-						text: composerVal,
-						reactions: [],
-						unread: false,
-					}
-
-					setMessages((curr) => [...curr, newMessage])
-					setComposerVal('')
-				}}
+				chats={state.chats}
+				messages={state.messages}
+				currentUserId={state.currentUser.id}
+				selectedChatId={state.selectedChatId}
+				viewMode={state.viewMode}
+				dispatch={dispatch}
 			/>
 
-			{showChatCreateDialog && (
-				<CreateChatDialog
-					onCancel={() => {
-						setShowChatCreateDialog(false)
-					}}
-					onOk={(val: string) => {
-						if (!val) return
+			<CreateChatDialog
+				show={state.showChatCreate}
+				onCancel={() => dispatch({ type: 'CANCEL_CHAT_CREATE' })}
+				onOk={(val) => dispatch({ type: 'OK_CHAT_CREATE', payload: { chatName: val } })}
+			/>
 
-						const newUserId = getRandString()
-						const newUser: User = {
-							id: newUserId,
-							name: val,
-							imgUrl: getAvatarUrl(newUserId + val),
-							isOnline: true,
-						}
+			<EditMessageDialog
+				messages={state.messages}
+				editMessageId={state.editMessageId}
+				onCancel={() => dispatch({ type: 'CANCEL_MSG_EDIT' })}
+				onOk={(text) => dispatch({ type: 'OK_MSG_EDIT', payload: { text: text } })}
+			/>
 
-						const newChat: Chat = {
-							id: getRandString(),
-							type: 'personal',
-							users: [newUser, CURRENT_USER],
-						}
+			<DeleteMessageDialog
+				show={!!state.deleteMessageId}
+				onCancel={() => dispatch({ type: 'CANCEL_MSG_DELETE' })}
+				onOk={() => dispatch({ type: 'OK_MSG_DELETE' })}
+			/>
 
-						setChats((curr) => [newChat, ...curr])
-						setSelectedChatId(newChat.id)
-						setShowChatCreateDialog(false)
-					}}
-				/>
-			)}
-
-			{showChatDeleteDialog && (
-				<ModalDialog
-					primaryAction='Delete'
-					primaryColor='red'
-					secondaryAction='Cancel'
-					title='Delete Chat'
-					onCancel={() => setShowChatDeleteDialog(false)}
-					onOk={() => {
-						setMessages(messages.filter((item) => item.chatId !== selectedChatId))
-						const newChats = chats.filter((item) => item.id !== selectedChatId)
-						setChats(newChats)
-						const newSelectedChatId = newChats.length > 0 ? newChats[0].id : null
-						setSelectedChatId(newSelectedChatId)
-						setShowChatDeleteDialog(false)
-					}}
-				>
-					<p className=' max-w-[80%] text-center m-auto'>Are you sure to delete this chat and all its messages?</p>
-				</ModalDialog>
-			)}
+			<DeleteChatDialog
+				show={state.showChatDelete}
+				onCancel={() => dispatch({ type: 'CANCEL_CHAT_DELETE' })}
+				onOk={() => dispatch({ type: 'OK_CHAT_DELETE' })}
+			/>
 		</div>
 	)
 }

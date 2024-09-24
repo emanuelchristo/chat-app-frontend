@@ -8,12 +8,25 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: 0.4s ease all;
 }
 
 .dialog {
+	opacity: 1;
 	background-color: #fff;
 	border-radius: 20px;
 	width: 320px;
+	transition: 0.2s ease all;
+}
+
+.hide {
+	visibility: hidden;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.hide .dialog {
+	opacity: 0;
+	transform: translate(0, 0) scale(0);
 }
 
 .header {
@@ -57,13 +70,4 @@
 .actions-wrapper .primary-action {
 	background: var(--gradient-black);
 	color: #fff;
-}
-
-.chat-name-input {
-	height: 38px;
-	background: var(--gradient-grey);
-	border-radius: 100px;
-	width: 100%;
-	padding: 0 14px;
-	outline: none;
 }

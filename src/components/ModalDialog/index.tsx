@@ -1,8 +1,9 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement } from 'react'
 
 import styles from './ModalDialog.module.css'
 
 type ModalDialogProps = {
+	show: boolean
 	primaryAction: string
 	secondaryAction: string
 	primaryColor: 'black' | 'red'
@@ -13,6 +14,7 @@ type ModalDialogProps = {
 }
 
 export const ModalDialog = ({
+	show,
 	primaryAction,
 	secondaryAction = 'Cancel',
 	primaryColor = 'black',
@@ -22,8 +24,8 @@ export const ModalDialog = ({
 	children,
 }: ModalDialogProps) => {
 	return (
-		<div className={styles['modal-container']}>
-			<div className={styles['dialog']}>
+		<div className={`${styles['modal-container']} ${!show ? styles['hide'] : ''}`} onClick={onCancel}>
+			<div className={styles['dialog']} onClick={(e) => e.stopPropagation()}>
 				<div className={styles['header']}>
 					<span className={styles['title']}>{title}</span>
 				</div>
@@ -42,35 +44,5 @@ export const ModalDialog = ({
 				</div>
 			</div>
 		</div>
-	)
-}
-
-export const CreateChatDialog = ({ onCancel, onOk }: { onCancel: () => void; onOk: (val: string) => void }) => {
-	const [val, setVal] = useState('')
-
-	return (
-		<ModalDialog
-			primaryAction='Create'
-			primaryColor='black'
-			secondaryAction='Cancel'
-			title='Create Chat'
-			onCancel={onCancel}
-			onOk={() => onOk(val)}
-		>
-			<input
-				autoFocus
-				className={styles['chat-name-input']}
-				type='text'
-				placeholder='Enter name...'
-				value={val}
-				maxLength={20}
-				onKeyDown={(e) => {
-					if (e.code === 'Enter') {
-						onOk(val)
-					}
-				}}
-				onChange={(e) => setVal(e.target.value)}
-			/>
-		</ModalDialog>
 	)
 }

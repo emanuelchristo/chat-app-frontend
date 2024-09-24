@@ -1,19 +1,10 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 import styles from './MessageComposer.module.css'
 
-export const MessageComposer = ({
-	value,
-	onChange,
-	onSend,
-	editInProgress,
-}: {
-	value: string
-	onChange: (val: string) => void
-	onSend: () => void
-	editInProgress: boolean
-}) => {
-	const [rows, setRows] = useState(1)
+export const MessageComposer = ({ onSend }: { onSend: (text: string) => void }) => {
+	const [text, setText] = useState('')
+
 	const MAX_ROWS = 4
 
 	return (
@@ -22,16 +13,20 @@ export const MessageComposer = ({
 				<textarea
 					className={styles['text-area']}
 					placeholder='Write a message...'
-					rows={rows}
+					rows={Math.min(text.split('\n').length, MAX_ROWS)}
 					onChange={(e) => {
-						onChange(e.target.value)
-						const nRows = e.target.value.split('\n').length
-						setRows(Math.min(nRows, MAX_ROWS))
+						setText(e.target.value)
 					}}
-					value={value}
+					value={text}
 				></textarea>
-				<button className={styles['send-button']} onClick={onSend}>
-					{editInProgress ? 'Save Edit' : 'Send'}
+				<button
+					className={styles['send-button']}
+					onClick={() => {
+						if (text) onSend(text)
+						setText('')
+					}}
+				>
+					Send
 				</button>
 			</div>
 		</div>

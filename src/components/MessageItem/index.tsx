@@ -13,6 +13,7 @@ type MessageItemProps = {
 }
 
 export const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMode }: MessageItemProps) => {
+	// Function that reactions and count similar ones
 	function groupReactions(reactions: { emoji: string; userId: string }[], currentUserId: string) {
 		const table: { [key: string]: { isSelf: boolean; count: number } } = {}
 
@@ -33,7 +34,7 @@ export const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete,
 	const isSelf = message.sentUser.id === currentUserId
 	const groupedReactions = groupReactions(message.reactions, currentUserId)
 
-	function formatText(text) {
+	function formatText(text: string) {
 		return text.replace(/\n/g, '<br>')
 	}
 

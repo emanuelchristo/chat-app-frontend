@@ -1,11 +1,13 @@
+import type { ViewMode as ViewModeType } from '../../types'
+
 import styles from './ViewMode.module.css'
 
 export const ViewMode = ({
 	viewMode,
 	onViewModeChange,
 }: {
-	viewMode: 'spacious' | 'compact'
-	onViewModeChange: (val: 'spacious' | 'compact') => void
+	viewMode: ViewModeType
+	onViewModeChange: (val: ViewModeType) => void
 }) => {
 	return (
 		<div className={styles['view-mode']}>

@@ -97,3 +97,19 @@
 	text-decoration: underline;
 	text-underline-offset: 2px;
 }
+
+.create-button {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--gradient-black);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.create-button img {
+	width: 28px;
+	height: 28px;
+}
