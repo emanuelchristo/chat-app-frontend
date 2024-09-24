@@ -31,6 +31,7 @@ const initialState: State = {
 	showChatDelete: false,
 }
 
+// Getting data from localStorage
 const chatDataStr = localStorage.getItem('chatData')
 if (chatDataStr) {
 	const chatData = JSON.parse(chatDataStr)
@@ -73,8 +74,15 @@ const reducer = (state: State, action: Action): State => {
 		}
 		case 'OK_CHAT_DELETE': {
 			const newChats = state.chats.filter((chat) => chat.id !== state.selectedChatId)
+			const newMessages = state.messages.filter((msg) => msg.chatId !== state.selectedChatId)
 			const newSelectedChatId = newChats.length > 0 ? newChats[0].id : null
-			return { ...state, chats: newChats, selectedChatId: newSelectedChatId, showChatDelete: false }
+			return {
+				...state,
+				chats: newChats,
+				messages: newMessages,
+				selectedChatId: newSelectedChatId,
+				showChatDelete: false,
+			}
 		}
 		case 'MSG_DELETE': {
 			return { ...state, deleteMessageId: action.payload.messageId }
@@ -98,14 +106,16 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, messages: [...state.messages], editMessageId: null }
 		}
 		case 'EMOJI': {
-			const msg = { ...(state.messages.find((item) => item.id === action.payload.messageId) as Message) }
+			const msg = state.messages.find((item) => item.id === action.payload.messageId) as Message
 			const reaction = msg.reactions.find((item) => item.userId === state.currentUser.id)
 
 			// If a reaction by current user already exists on the message
 			if (reaction) {
 				// If same emoji, then remove reaction
-				if (reaction.emoji === action.payload.emoji)
+				if (reaction.emoji === action.payload.emoji) {
+					console.log('here')
 					msg.reactions = msg.reactions.filter((item) => item.userId !== state.currentUser.id)
+				}
 				// If different emoji, edit reaction
 				else reaction.emoji = action.payload.emoji
 			}

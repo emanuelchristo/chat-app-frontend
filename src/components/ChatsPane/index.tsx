@@ -2,7 +2,7 @@ import type { Chat, User, Message, ViewMode as ViewModeType, Action } from '../.
 import type { Dispatch } from 'react'
 
 import { search } from 'fast-fuzzy'
-import { useState, memo, useMemo } from 'react'
+import { useState, memo, useMemo, useCallback } from 'react'
 
 import { ChatItem } from '../ChatItem'
 import { ViewMode } from '../ViewMode'
@@ -30,6 +30,8 @@ export const ChatsPane = memo(
 				keySelector: (obj) => obj.users.find((item) => item.id !== currentUserId)!.name,
 			})
 		}, [chats, chatSearchVal, currentUserId])
+
+		const handleChatSelect = useCallback((chatId: string) => dispatch({ type: 'CHAT_SELECT', payload: { chatId } }), [])
 
 		return (
 			<div className={styles['chats-pane']}>
@@ -63,6 +65,7 @@ export const ChatsPane = memo(
 							return (
 								<ChatItem
 									key={chat.id}
+									chatId={chat.id}
 									name={chatUser.name}
 									imageUrl={chatUser.imgUrl}
 									preview={lastMessage?.text ?? ''}
@@ -71,7 +74,7 @@ export const ChatsPane = memo(
 									online={chatUser.isOnline}
 									viewMode={viewMode}
 									selected={selectedChatId === chat.id}
-									onClick={() => dispatch({ type: 'CHAT_SELECT', payload: { chatId: chat.id } })}
+									onClick={handleChatSelect}
 								/>
 							)
 						})}

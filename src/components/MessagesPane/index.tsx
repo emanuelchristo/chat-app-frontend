@@ -1,10 +1,10 @@
 import type { Action, Chat, Message } from '../../types'
 
-import { useRef, useEffect, useState, useMemo, Dispatch, memo } from 'react'
+import { useRef, useEffect, useState, useMemo, Dispatch, memo, lazy, Suspense } from 'react'
 
 import { MessageComposer } from '../MessageComposer'
-import { MessageItem } from '../MessageItem'
 import { MessagesHeader } from '../MessagesHeader'
+const MessageItem = lazy(() => import('../MessageItem'))
 
 import styles from './MessagesPane.module.css'
 
@@ -55,17 +55,19 @@ export const MessagesPane = memo(
 					{shownMessages.length > 0 ? (
 						<div className={styles['messages-container']} ref={messagesContainer}>
 							{shownMessages.map((item) => (
-								<MessageItem
-									key={item.id}
-									message={item}
-									onEmoji={(emoji) => {
-										dispatch({ type: 'EMOJI', payload: { messageId: item.id, emoji: emoji } })
-									}}
-									onDelete={() => dispatch({ type: 'MSG_DELETE', payload: { messageId: item.id } })}
-									onEdit={() => dispatch({ type: 'MSG_EDIT', payload: { messageId: item.id } })}
-									currentUserId={currentUserId}
-									viewMode={viewMode}
-								/>
+								<Suspense fallback={<div>Loading...</div>} key={item.id}>
+									<MessageItem
+										key={item.id}
+										message={item}
+										onEmoji={(emoji) => {
+											dispatch({ type: 'EMOJI', payload: { messageId: item.id, emoji: emoji } })
+										}}
+										onDelete={() => dispatch({ type: 'MSG_DELETE', payload: { messageId: item.id } })}
+										onEdit={() => dispatch({ type: 'MSG_EDIT', payload: { messageId: item.id } })}
+										currentUserId={currentUserId}
+										viewMode={viewMode}
+									/>
+								</Suspense>
 							))}
 						</div>
 					) : (

@@ -30,6 +30,7 @@ export const CreateChatDialog = ({ show, onCancel, onOk }: CreateChatDialogProps
 			onOk={() => onOk(val)}
 		>
 			<input
+				id='create'
 				className={styles['chat-name-input']}
 				type='text'
 				placeholder='Enter name...'

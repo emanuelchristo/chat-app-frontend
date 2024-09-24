@@ -1,4 +1,4 @@
-export const formatChatDate = (dateStr: string): string => {
+export const formatChatDate = (dateStr: string | null): string => {
 	if (!dateStr) return ''
 
 	const now = new Date()

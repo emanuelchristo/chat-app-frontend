@@ -8,7 +8,7 @@ import styles from './EditMessageDialog.module.css'
 
 type EditMessageDialogProps = {
 	messages: Message[]
-	editMessageId: string
+	editMessageId: string | null
 	onCancel: () => void
 	onOk: (val: string) => void
 }

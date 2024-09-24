@@ -12,7 +12,7 @@ type MessageItemProps = {
 	viewMode: 'compact' | 'spacious'
 }
 
-export const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMode }: MessageItemProps) => {
+const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMode }: MessageItemProps) => {
 	// Function that reactions and count similar ones
 	function groupReactions(reactions: { emoji: string; userId: string }[], currentUserId: string) {
 		const table: { [key: string]: { isSelf: boolean; count: number } } = {}
@@ -70,6 +70,8 @@ export const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete,
 		</div>
 	)
 }
+
+export default MessageItem
 
 type ReactionItemProps = {
 	emoji: string

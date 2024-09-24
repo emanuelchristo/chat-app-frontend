@@ -107,3 +107,30 @@
 	padding: 0 4px;
 	line-height: 1;
 }
+
+.tooltip {
+	position: absolute;
+	width: fit-content;
+	height: max-content;
+	max-width: 220px;
+	color: #fff;
+	background-color: rgb(27, 27, 27);
+	font-size: 13px;
+	padding: 6px 10px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.301);
+	visibility: hidden;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	display: -webkit-box;
+	-webkit-line-clamp: 10; /* number of lines to show */
+	line-clamp: 10;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.tooltip-visible {
+	visibility: visible;
+}
