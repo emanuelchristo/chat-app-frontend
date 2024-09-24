@@ -176,3 +176,9 @@
 .reaction-item-self:active {
 	transform: scale(0.95);
 }
+
+.show-more {
+	font-weight: 600;
+	cursor: pointer;
+	text-decoration: underline;
+}

@@ -40,8 +40,6 @@ export const ChatItem = memo(
 
 			const isOutside = rectPreview.top + rectTooltip.height > window.innerHeight
 
-			console.log('rectPreview', rectPreview, 'rectTooltip', rectTooltip)
-
 			tooltip.current.style.top = isOutside ? 'unset' : `${rectPreview.top + 20}px`
 			tooltip.current.style.left = `${rectPreview.left + 12}px`
 			tooltip.current.style.right = 'unset'

@@ -1,4 +1,6 @@
 import type { Message } from '../../types'
+
+import { useState, useEffect } from 'react'
 import { formatMessageDate } from '../../utils/format-date'
 
 import styles from './MessageItem.module.css'
@@ -11,6 +13,8 @@ type MessageItemProps = {
 	onDelete: () => void
 	viewMode: 'compact' | 'spacious'
 }
+
+const MAX_INIT_MSG_LENGTH = 120
 
 const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMode }: MessageItemProps) => {
 	// Function that reactions and count similar ones
@@ -31,8 +35,23 @@ const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMo
 		})
 	}
 
+	const [shownText, setShownText] = useState('')
 	const isSelf = message.sentUser.id === currentUserId
 	const groupedReactions = groupReactions(message.reactions, currentUserId)
+
+	useEffect(() => {
+		if (message.text.length > MAX_INIT_MSG_LENGTH) {
+			setShownText(message.text.slice(0, MAX_INIT_MSG_LENGTH))
+			console.log('here')
+		} else {
+			setShownText(message.text)
+		}
+	}, [message])
+
+	function handleMore() {
+		console.log(message.text)
+		setShownText(message.text)
+	}
 
 	function formatText(text: string) {
 		return text.replace(/\n/g, '<br>')
@@ -46,7 +65,13 @@ const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMo
 					{viewMode === 'spacious' && <span className={styles['datetime']}>{formatMessageDate(message.datetime)}</span>}
 					<div className={styles['bubble']}>
 						<ReactionsMenu onEmoji={onEmoji} onEdit={onEdit} onDelete={onDelete} showEdit={isSelf} />
-						<span dangerouslySetInnerHTML={{ __html: formatText(message.text) }}></span>
+						<span dangerouslySetInnerHTML={{ __html: formatText(shownText) }}></span>
+						{shownText !== message.text && (
+							<span className={styles['show-more']} onClick={handleMore}>
+								{' '}
+								...more
+							</span>
+						)}
 						{groupReactions.length > 0 && (
 							<div className={styles['applied-reactions-wrapper']}>
 								{groupedReactions.map((item) => (
