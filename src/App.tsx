@@ -106,7 +106,8 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, messages: [...state.messages], editMessageId: null }
 		}
 		case 'EMOJI': {
-			const msg = state.messages.find((item) => item.id === action.payload.messageId) as Message
+			const newMessages = JSON.parse(JSON.stringify(state.messages))
+			const msg = newMessages.find((item) => item.id === action.payload.messageId) as Message
 			const reaction = msg.reactions.find((item) => item.userId === state.currentUser.id)
 
 			// If a reaction by current user already exists on the message
@@ -124,7 +125,7 @@ const reducer = (state: State, action: Action): State => {
 				msg.reactions.push({ emoji: action.payload.emoji, userId: state.currentUser.id })
 			}
 
-			return { ...state, messages: [...state.messages] }
+			return { ...state, messages: newMessages }
 		}
 		case 'MSG_SEND': {
 			if (!action.payload.text) return state
