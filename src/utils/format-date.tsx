@@ -1,41 +1,36 @@
-export const formatChatDate = (dateStr: string | null): string => {
-	if (!dateStr) return ''
-
+function parseDate(dateStr: string) {
 	const now = new Date()
 	const date = new Date(dateStr)
-
-	const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: true }
-	const optionsDate = { day: 'numeric', month: 'short', year: 'numeric' }
 
 	const isSameDay = date.toDateString() === now.toDateString()
 	const yesterday = new Date(now)
 	yesterday.setDate(now.getDate() - 1)
 	const isYesterday = date.toDateString() === yesterday.toDateString()
 
-	const timeString = date.toLocaleTimeString([], optionsTime).toUpperCase()
+	const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase()
+	const dateString = date.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })
+
+	return { isSameDay, isYesterday, timeString, dateString }
+}
+
+export const formatChatDate = (dateStr: string | null): string => {
+	if (!dateStr) return ''
+
+	const { isSameDay, isYesterday, timeString, dateString } = parseDate(dateStr)
 
 	if (isSameDay) {
 		return timeString
 	} else if (isYesterday) {
 		return 'Yesterday'
 	} else {
-		return date.toLocaleDateString([], optionsDate)
+		return dateString
 	}
 }
 
-export const formatMessageDate = (timestamp: string) => {
-	const now = new Date()
-	const date = new Date(timestamp)
+export const formatMessageDate = (dateStr: string) => {
+	if (!dateStr) return ''
 
-	const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: true }
-	const optionsDate = { day: 'numeric', month: 'short', year: 'numeric' }
-
-	const isSameDay = date.toDateString() === now.toDateString()
-	const yesterday = new Date(now)
-	yesterday.setDate(now.getDate() - 1)
-	const isYesterday = date.toDateString() === yesterday.toDateString()
-
-	const timeString = date.toLocaleTimeString([], optionsTime).toUpperCase()
+	const { isSameDay, isYesterday, timeString, dateString } = parseDate(dateStr)
 
 	let dayString
 	if (isSameDay) {
@@ -43,7 +38,7 @@ export const formatMessageDate = (timestamp: string) => {
 	} else if (isYesterday) {
 		dayString = 'Yesterday'
 	} else {
-		dayString = date.toLocaleDateString([], optionsDate)
+		dayString = dateString
 	}
 	return `${timeString}, ${dayString}`
 }
