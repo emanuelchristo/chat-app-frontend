@@ -1,19 +1,15 @@
 import type { Message } from '../../types'
 
 import { useState, useEffect } from 'react'
+import { useAppState, useDispatch } from '../../contexts/AppStateContext'
 
 import { ModalDialog } from '../ModalDialog'
 
 import styles from './EditMessageDialog.module.css'
 
-type EditMessageDialogProps = {
-	messages: Message[]
-	editMessageId: string | null
-	onCancel: () => void
-	onOk: (val: string) => void
-}
-
-export const EditMessageDialog = ({ messages, editMessageId, onCancel, onOk }: EditMessageDialogProps) => {
+export const EditMessageDialog = () => {
+	const { messages, editMessageId } = useAppState()
+	const dispatch = useDispatch()
 	const [text, setText] = useState('')
 
 	useEffect(() => {
@@ -32,9 +28,11 @@ export const EditMessageDialog = ({ messages, editMessageId, onCancel, onOk }: E
 			primaryColor='black'
 			secondaryAction='Cancel'
 			title='Edit Message'
-			onCancel={onCancel}
+			onCancel={() => {
+				dispatch({ type: 'CANCEL_MSG_EDIT' })
+			}}
 			onOk={() => {
-				onOk(text)
+				dispatch({ type: 'OK_MSG_EDIT', payload: { text: text } })
 			}}
 		>
 			<textarea

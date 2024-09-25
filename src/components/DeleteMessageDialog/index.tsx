@@ -1,21 +1,24 @@
+import { useAppState, useDispatch } from '../../contexts/AppStateContext'
+
 import { ModalDialog } from '../ModalDialog'
 
-type DeleteMessageDialogProps = {
-	show: boolean
-	onOk: () => void
-	onCancel: () => void
-}
+export const DeleteMessageDialog = () => {
+	const { deleteMessageId } = useAppState()
+	const dispatch = useDispatch()
 
-export const DeleteMessageDialog = ({ show, onOk, onCancel }: DeleteMessageDialogProps) => {
 	return (
 		<ModalDialog
-			show={show}
+			show={!!deleteMessageId}
 			primaryAction='Delete'
 			primaryColor='red'
 			secondaryAction='Cancel'
 			title='Delete Message'
-			onCancel={onCancel}
-			onOk={onOk}
+			onCancel={() => {
+				dispatch({ type: 'CANCEL_MSG_DELETE' })
+			}}
+			onOk={() => {
+				dispatch({ type: 'OK_MSG_DELETE' })
+			}}
 		>
 			<p className=' max-w-[80%] text-center m-auto'>Are you sure to delete this message?</p>
 		</ModalDialog>
