@@ -27,7 +27,7 @@ export const formatChatDate = (dateStr: string | null): string => {
 	}
 }
 
-export const formatMessageDate = (dateStr: string) => {
+export const formatMessageDate = (dateStr: string | null) => {
 	if (!dateStr) return ''
 
 	const { isSameDay, isYesterday, timeString, dateString } = parseDate(dateStr)

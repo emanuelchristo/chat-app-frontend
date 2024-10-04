@@ -90,6 +90,7 @@ export const ChatItem = memo(
 									ref={tooltip}
 									className={`${styles['tooltip']} ${showTooltip ? styles['tooltip-visible'] : ''}`}
 									dangerouslySetInnerHTML={{ __html: formatPreview(preview) }}
+									data-testid='tooltip'
 								></div>,
 								document.body
 							)}

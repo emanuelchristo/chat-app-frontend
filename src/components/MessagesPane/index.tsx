@@ -48,7 +48,7 @@ export const MessagesPane = memo(() => {
 					onChatDelete={() => dispatch({ type: 'CHAT_DELETE' })}
 				/>
 				{shownMessages.length > 0 ? (
-					<div className={styles['messages-container']} ref={messagesContainer}>
+					<div className={styles['messages-container']} ref={messagesContainer} data-testid='messages-container'>
 						{shownMessages.map((item) => (
 							<Suspense fallback={<div>Loading...</div>} key={item.id}>
 								<MessageItem

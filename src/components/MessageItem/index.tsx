@@ -42,7 +42,6 @@ const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMo
 	useEffect(() => {
 		if (message.text.length > MAX_INIT_MSG_LENGTH) {
 			setShownText(message.text.slice(0, MAX_INIT_MSG_LENGTH))
-			console.log('here')
 		} else {
 			setShownText(message.text)
 		}

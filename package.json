@@ -7,7 +7,7 @@
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"test": "jest"
+		"test": "jest --coverage"
 	},
 	"dependencies": {
 		"fast-fuzzy": "^1.12.0",

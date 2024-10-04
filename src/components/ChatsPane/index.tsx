@@ -1,7 +1,7 @@
 import type { User } from '../../types'
 
 import { search } from 'fast-fuzzy'
-import { useState, memo, useMemo, useCallback } from 'react'
+import { useState, memo, useMemo, useCallback, useEffect } from 'react'
 import { useDispatch, useAppState } from '../../contexts/AppStateContext'
 
 import { ChatItem } from '../ChatItem'
@@ -16,6 +16,10 @@ export const ChatsPane = memo(() => {
 
 	const dispatch = useDispatch()
 	const [chatSearchVal, setChatSearchVal] = useState('')
+
+	useEffect(() => {
+		localStorage.setItem('chatData', JSON.stringify({ chats: chats, messages: messages }))
+	}, [chats, messages])
 
 	const searchedChats = useMemo(() => {
 		if (!chatSearchVal) return chats
@@ -54,7 +58,7 @@ export const ChatsPane = memo(() => {
 			</div>
 
 			{chats.length > 0 ? (
-				<div className={styles['chats-container']}>
+				<div className={styles['chats-container']} data-testid='chats-container'>
 					{searchedChats.map((chat) => {
 						const chatUser = chat.users.find((item) => item.id !== currentUserId) as User
 						const lastMessage = [...messages].reverse().find((item) => item.chatId === chat.id)

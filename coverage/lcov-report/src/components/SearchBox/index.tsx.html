@@ -1,0 +1,226 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for src/components/SearchBox/index.tsx</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/components/SearchBox</a> index.tsx</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>6/6</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>3/3</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>5/5</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import styles from './SearchBox.module.css'
+&nbsp;
+export const SearchBox = ({ val, onChange }: { val: string; onChange: (val: string) =&gt; void }) =&gt; {
+	return (
+		&lt;div className={styles['search-box']}&gt;
+			&lt;svg
+				width='18'
+				height='18'
+				className={styles['search-icon']}
+				viewBox='0 0 18 18'
+				fill='none'
+				xmlns='http://www.w3.org/2000/svg'
+			&gt;
+				&lt;mask id='mask0_4_519' maskUnits='userSpaceOnUse' x='0' y='0' width='18' height='18'&gt;
+					&lt;rect width='18' height='18' fill='#D9D9D9' /&gt;
+				&lt;/mask&gt;
+				&lt;g mask='url(#mask0_4_519)'&gt;
+					&lt;path
+						d='M8.25024 13.4999C9.70024 13.4999 10.9377 12.9905 11.9627 11.9718C12.9877 10.953 13.5002 9.71238 13.5002 8.24988C13.5002 6.79988 12.9877 5.56238 11.9627 4.53738C10.9377 3.51238 9.70024 2.99988 8.25024 2.99988C6.78774 2.99988 5.54712 3.51238 4.52837 4.53738C3.50962 5.56238 3.00024 6.79988 3.00024 8.24988C3.00024 9.71238 3.50962 10.953 4.52837 11.9718C5.54712 12.9905 6.78774 13.4999 8.25024 13.4999ZM8.25024 14.9999C7.31274 14.9999 6.43462 14.8218 5.61587 14.4655C4.79712 14.1093 4.08462 13.628 3.47837 13.0218C2.87212 12.4155 2.39087 11.703 2.03462 10.8843C1.67837 10.0655 1.50024 9.18738 1.50024 8.24988C1.50024 7.32488 1.67837 6.453 2.03462 5.63425C2.39087 4.8155 2.87212 4.09988 3.47837 3.48738C4.08462 2.87488 4.79712 2.3905 5.61587 2.03425C6.43462 1.678 7.31274 1.49988 8.25024 1.49988C9.17524 1.49988 10.0471 1.678 10.8659 2.03425C11.6846 2.3905 12.4002 2.87488 13.0127 3.48738C13.6252 4.09988 14.1096 4.8155 14.4659 5.63425C14.8221 6.453 15.0002 7.32488 15.0002 8.24988C15.0002 9.04988 14.869 9.80613 14.6065 10.5186C14.344 11.2311 13.9815 11.8811 13.519 12.4686L15.9752 14.9249C16.1252 15.0749 16.1971 15.2499 16.1909 15.4499C16.1846 15.6499 16.1065 15.8249 15.9565 15.9749C15.8065 16.1124 15.6315 16.1811 15.4315 16.1811C15.2315 16.1811 15.0565 16.1124 14.9065 15.9749L12.4502 13.5374C11.8627 13.9999 11.2127 14.3593 10.5002 14.6155C9.78774 14.8718 9.03774 14.9999 8.25024 14.9999Z'
+						fill='black'
+					/&gt;
+				&lt;/g&gt;
+			&lt;/svg&gt;
+			&lt;input type='text' placeholder='Search chats...' value={val} onChange={(e) =&gt; onChange(e.target.value)} /&gt;
+			&lt;svg
+				width='18'
+				height='18'
+				className={styles['close-icon']}
+				viewBox='0 0 18 18'
+				fill='none'
+				xmlns='http://www.w3.org/2000/svg'
+				onClick={() =&gt; onChange('')}
+				data-testid='clear-search'
+			&gt;
+				&lt;mask id='mask0_9_916' maskUnits='userSpaceOnUse' x='0' y='0' width='18' height='18'&gt;
+					&lt;rect width='18' height='18' fill='#D9D9D9' /&gt;
+				&lt;/mask&gt;
+				&lt;g mask='url(#mask0_9_916)'&gt;
+					&lt;path
+						d='M8.99989 9.79032L5.19514 13.5953C5.09126 13.699 4.9607 13.7521 4.80345 13.7546C4.64632 13.757 4.51339 13.7039 4.40464 13.5953C4.29601 13.4865 4.2417 13.3548 4.2417 13.2C4.2417 13.0453 4.29601 12.9135 4.40464 12.8048L8.20957 9.00001L4.40464 5.19526C4.30089 5.09138 4.24776 4.96082 4.24526 4.80357C4.24289 4.64645 4.29601 4.51351 4.40464 4.40476C4.51339 4.29613 4.64514 4.24182 4.79989 4.24182C4.95464 4.24182 5.08639 4.29613 5.19514 4.40476L8.99989 8.2097L12.8046 4.40476C12.9085 4.30101 13.0391 4.24788 13.1963 4.24538C13.3535 4.24301 13.4864 4.29613 13.5951 4.40476C13.7038 4.51351 13.7581 4.64526 13.7581 4.80001C13.7581 4.95476 13.7038 5.08651 13.5951 5.19526L9.7902 9.00001L13.5951 12.8048C13.6989 12.9086 13.752 13.0392 13.7545 13.1964C13.7569 13.3536 13.7038 13.4865 13.5951 13.5953C13.4864 13.7039 13.3546 13.7582 13.1999 13.7582C13.0451 13.7582 12.9134 13.7039 12.8046 13.5953L8.99989 9.79032Z'
+						fill='#1C1B1F'
+					/&gt;
+				&lt;/g&gt;
+			&lt;/svg&gt;
+		&lt;/div&gt;
+	)
+}
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2024-10-04T07:34:24.138Z
+            </div>
+        <script src="../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
+    </body>
+</html>
+    

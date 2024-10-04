@@ -129,7 +129,6 @@ const reducer = (state: State, action: Action): State => {
 			if (reaction) {
 				// If same emoji, then remove reaction
 				if (reaction.emoji === action.payload.emoji) {
-					console.log('here')
 					msg.reactions = msg.reactions.filter((item) => item.userId !== state.currentUser.id)
 				}
 				// If different emoji, edit reaction

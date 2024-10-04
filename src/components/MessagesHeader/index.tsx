@@ -26,7 +26,7 @@ export const MessagesHeader = ({ name, imgUrl, isOnline, onChatDelete }: Message
 				</div>
 			</div>
 
-			<button className={styles['circle-icon-button']} onClick={onChatDelete}>
+			<button className={styles['circle-icon-button']} onClick={onChatDelete} title='Delete Chat'>
 				<svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
 					<mask id='mask0_2_197' maskUnits='userSpaceOnUse' x='0' y='0' width='18' height='18'>
 						<rect width='18' height='18' fill='#D9D9D9' />

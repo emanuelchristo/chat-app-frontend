@@ -30,6 +30,7 @@ export const SearchBox = ({ val, onChange }: { val: string; onChange: (val: stri
 				fill='none'
 				xmlns='http://www.w3.org/2000/svg'
 				onClick={() => onChange('')}
+				data-testid='clear-search'
 			>
 				<mask id='mask0_9_916' maskUnits='userSpaceOnUse' x='0' y='0' width='18' height='18'>
 					<rect width='18' height='18' fill='#D9D9D9' />
