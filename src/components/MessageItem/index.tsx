@@ -40,12 +40,13 @@ const MessageItem = ({ message, currentUserId, onEmoji, onEdit, onDelete, viewMo
 	const groupedReactions = groupReactions(message.reactions, currentUserId)
 
 	useEffect(() => {
+		console.log(message)
 		if (message.text.length > MAX_INIT_MSG_LENGTH) {
 			setShownText(message.text.slice(0, MAX_INIT_MSG_LENGTH))
 		} else {
 			setShownText(message.text)
 		}
-	}, [message])
+	}, [message.text])
 
 	function handleMore() {
 		console.log(message.text)
@@ -134,8 +135,10 @@ const ReactionsMenu = ({ onEmoji, onEdit, onDelete, showEdit }: ReactionMenuProp
 			</div>
 			<div className={styles['separator']}></div>
 			<div className={styles['actions-wrapper']}>
-				{showEdit && <img src='/images/edit.svg' className={styles['action-icon']} onClick={onEdit} />}
-				<img src='/images/delete.svg' className={styles['action-icon']} onClick={onDelete} />
+				{showEdit && (
+					<img role='edit-message' src='/images/edit.svg' className={styles['action-icon']} onClick={onEdit} />
+				)}
+				<img role='delete-message' src='/images/delete.svg' className={styles['action-icon']} onClick={onDelete} />
 			</div>
 		</div>
 	)

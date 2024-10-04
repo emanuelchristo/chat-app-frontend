@@ -36,6 +36,7 @@ export const EditMessageDialog = () => {
 			}}
 		>
 			<textarea
+				role='edit-message-textbox'
 				className={styles['textarea']}
 				value={text}
 				onChange={(e) => setText(e.target.value)}

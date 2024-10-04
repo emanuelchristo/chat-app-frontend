@@ -248,6 +248,85 @@ describe('Messages', () => {
 		expect(messageItem).toBeInTheDocument()
 	})
 
+	it('should delete a message', async () => {
+		render(<App />)
+
+		const addChatButton = screen.getByAltText('+').closest('button')
+		const chatNameInput = screen.getByPlaceholderText(/enter name/i)
+
+		await userEvent.click(addChatButton as Element)
+		await userEvent.type(chatNameInput, 'Test Chat #1{enter}')
+
+		const textbox = await screen.findByPlaceholderText(/write a message/i)
+		const sendButton = screen.getByRole('button', { name: /send/i })
+
+		await userEvent.type(textbox, 'Hello world!')
+		await userEvent.click(sendButton)
+
+		const messagesContainer = screen.getByTestId('messages-container')
+
+		const messageItem = await within(messagesContainer).findByText('Hello world!')
+		expect(messageItem).toBeInTheDocument()
+
+		const deleteMessageButton = within(messagesContainer).getByRole('delete-message')
+		await userEvent.click(deleteMessageButton)
+
+		const deleteMessageDialog = screen.getByText('Delete Message').closest('div')?.parentElement
+		const deleteButton = within(deleteMessageDialog as HTMLElement).getByRole('button', { name: /delete/i })
+		const cancelButton = within(deleteMessageDialog as HTMLElement).getByRole('button', { name: /cancel/i })
+
+		await userEvent.click(cancelButton)
+
+		expect(within(messagesContainer).queryByText('Hello world!')).toBeInTheDocument()
+
+		userEvent.click(deleteMessageButton)
+
+		await userEvent.click(deleteButton)
+
+		const messageItem2 = within(messagesContainer).queryByText('Hello world!')
+		expect(messageItem2).toBe(null)
+	})
+
+	it('should edit a message', async () => {
+		render(<App />)
+
+		const addChatButton = screen.getByAltText('+').closest('button')
+		const chatNameInput = screen.getByPlaceholderText(/enter name/i)
+
+		await userEvent.click(addChatButton as Element)
+		await userEvent.type(chatNameInput, 'Test Chat #1{enter}')
+
+		const textbox = await screen.findByPlaceholderText(/write a message/i)
+		const sendButton = screen.getByRole('button', { name: /send/i })
+
+		await userEvent.type(textbox, 'Hello world!')
+		await userEvent.click(sendButton)
+
+		const messagesContainer = screen.getByTestId('messages-container')
+
+		const messageItem = await within(messagesContainer).findByText('Hello world!')
+		expect(messageItem).toBeInTheDocument()
+
+		const editMessageButton = within(messagesContainer).getByRole('edit-message')
+		await userEvent.click(editMessageButton)
+
+		const editMessageDialog = screen.getByText('Edit Message').closest('div')?.parentElement
+		const editTextbox = screen.getByRole('edit-message-textbox')
+		const saveButton = within(editMessageDialog as HTMLElement).getByRole('button', { name: /save/i })
+		const cancelButton = within(editMessageDialog as HTMLElement).getByRole('button', { name: /cancel/i })
+
+		await userEvent.click(cancelButton)
+		expect(within(messagesContainer).queryByText('Hello world!')).toBeInTheDocument()
+
+		await userEvent.click(editMessageButton)
+		await userEvent.clear(editTextbox)
+		await userEvent.type(editTextbox, 'How are you')
+		await userEvent.click(saveButton)
+
+		const messageItem2 = await within(messagesContainer).findByText(/how are you/i)
+		expect(messageItem2).toBeInTheDocument()
+	})
+
 	it('should react with emoji on a message', async () => {
 		render(<App />)
 
